@@ -1,5 +1,5 @@
-(ns me.sorella.rave.core
-  (:import com.github.sardine SardineFactory))
+(ns rave.core
+  (:import com.github.sardine.SardineFactory))
 
 
 (def ^:dynamic *sardine*)
