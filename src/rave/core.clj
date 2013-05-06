@@ -1,9 +1,10 @@
 (ns rave.core
-  (:import com.github.sardine.SardineFactory))
+  (:import [com.github.sardine SardineFactory]
+           [java.io InputStream]))
 
 
 (def ^:dynamic *sardine*)
-(def ^:dynamic *baseurl*)
+(def ^:dynamic *baseurl* "")
 
 
 (defmacro with-server
@@ -21,7 +22,20 @@
        (.shutdown *sardine*))))
   
 
-(defn list
+(defn with-baseurl
+  "Prepends the baseurl to the given url."
+  [url]
+  (str *baseurl* url))
+
+
+(defn as-directory
+  "Returns a valid collection URI."
+  [url]
+  (if (.endsWith url "/") url
+                          (str url "/")))
+
+
+(defn children
   "Retrieves a list of `DavResource` objects inside a given URL.
 
 The URL should properly end with a `/` if the resource points to a
@@ -33,7 +47,7 @@ the depth of the children that should be returned."
   (.list *sardine* (with-baseurl url) depth))
 
 
-(defn get
+(defn retrieve
   "Returns a Stream for a resource's contents."
   [url]
   (.get *sardine* (with-baseurl url)))
