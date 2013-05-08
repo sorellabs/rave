@@ -68,7 +68,7 @@ the depth of the children that should be returned."
 (defn make-directory
   "Creates a Collection on the DAV server."
   [url]
-  (.delete *sardine* (as-directory (with-baseurl url))))
+  (.createDirectory *sardine* (with-baseurl url)))
 
 
 (defn move
